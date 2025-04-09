@@ -1,5 +1,8 @@
-package com.divum.reimbursement_platform.commons;
+package com.divum.reimbursement_platform.commons.exception;
 
+import com.divum.reimbursement_platform.commons.exception.entity.EntityNotFoundException;
+import com.divum.reimbursement_platform.commons.exception.entity.ErrorResponse;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -9,6 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.divum.reimbursement_platform.commons.exception.entity.ErrorCode.VALIDATIONS_FAILED;
+
+@Log4j2
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -47,11 +53,37 @@ public class GlobalExceptionHandler {
      * @return a response entity containing field-to-error-message mapping with HTTP 400 status
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
+
         ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage()));
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
+
+        ErrorResponse errorResponse = new ErrorResponse("Validations failed for some fields", VALIDATIONS_FAILED.toString(),
+                errors);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+
+    /**
+     * Handles {@link EntityNotFoundException} and returns a structured {@link ErrorResponse}
+     * with a 404 NOT FOUND status.
+     *
+     * <p>This ensures that when any entity like Employee, Team, etc., is not found,
+     * the API responds with a clear, predictable structure.
+     *
+     * @param ex the exception thrown when an entity is not found
+     * @return a {@link ResponseEntity} containing the error details
+     */
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
+        log.info("Entering Exception Handler");
+        log.info(ex.getMessage());
+        final ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), ex.getErrorCode().toString());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 }
 

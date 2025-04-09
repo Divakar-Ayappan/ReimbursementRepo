@@ -1,5 +1,6 @@
 package com.divum.reimbursement_platform.employee.service.impl;
 
+import com.divum.reimbursement_platform.commons.exception.entity.EntityNotFoundException;
 import com.divum.reimbursement_platform.employee.dao.AddOrEditEmployeeRequest;
 import com.divum.reimbursement_platform.employee.dao.GetEmployeeResponse;
 import com.divum.reimbursement_platform.employee.entity.Employee;
@@ -25,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         final Optional<Employee> employee = employeeRepo.findById(employeeId);
         if (employee.isEmpty()) {
-            return  GetEmployeeResponse.builder().build();
+            throw new EntityNotFoundException("Employee", employeeId.toString());
         }
 
         return GetEmployeeResponse.builder()
@@ -68,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         final Optional<Employee> employee = employeeRepo.findById(employeeId);
         if (employee.isEmpty()) {
-            return "Employee Not Found!";
+            throw new EntityNotFoundException("Employee", employeeId.toString());
         }
 
         final Employee employeeToUpdate = employee.get();
@@ -92,7 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         final Optional<Employee> employee = employeeRepo.findById(employeeId);
         System.out.println(employee);
         if(employee.isEmpty()) {
-            return "Employee Not Found!";
+            throw new EntityNotFoundException("Employee", employeeId.toString());
         }
         log.info("Deleting employee {}", employee);
         employeeRepo.deleteById(employeeId);
