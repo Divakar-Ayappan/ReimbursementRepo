@@ -1,6 +1,6 @@
 package com.divum.reimbursement_platform.employee.entity;
 
-import com.divum.reimbursement_platform.commons.BaseTimeFields;
+import com.divum.reimbursement_platform.commons.entity.BaseTimeFields;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.UUID;

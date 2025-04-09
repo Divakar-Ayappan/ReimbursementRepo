@@ -1,4 +1,4 @@
-package com.divum.reimbursement_platform.commons;
+package com.divum.reimbursement_platform.commons.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
