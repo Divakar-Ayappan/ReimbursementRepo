@@ -7,10 +7,8 @@ import com.divum.reimbursement_platform.employee.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.CREATED;
-import static com.divum.reimbursement_platform.commons.entity.StatusCode.SUCCESS;
+import static com.divum.reimbursement_platform.commons.entity.StatusCode.DELETED;
+import static com.divum.reimbursement_platform.commons.entity.StatusCode.UPDATED;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -54,7 +53,7 @@ public class EmployeeController {
 
         employeeService.updateEmployee(employeeId, addOrEditEmployeeRequest);
         return ResponseEntity.status(HttpStatus.CREATED).
-                body(new SuccessResponse("Employee updated successfully", SUCCESS));
+                body(new SuccessResponse("Employee updated successfully", UPDATED));
     }
 
     @DeleteMapping("/{employeeId}")
@@ -62,6 +61,6 @@ public class EmployeeController {
         log.info("Received request for deleting employee: {}", employeeId);
         employeeService.deleteEmployee(employeeId);
 
-        return ResponseEntity.ok(new SuccessResponse("Employee deleted successfully", SUCCESS));
+        return ResponseEntity.ok(new SuccessResponse("Employee deleted successfully", DELETED));
     }
 }

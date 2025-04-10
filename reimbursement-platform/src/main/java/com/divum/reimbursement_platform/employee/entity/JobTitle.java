@@ -5,5 +5,7 @@ public enum JobTitle {
     BUSINESS_ASSOCIATE,
     PROJECT_MANAGER,
     QA_TESTER,
+    ADMIN,
+    HR,
     OTHERS
 }

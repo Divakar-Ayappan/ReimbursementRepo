@@ -47,7 +47,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public String addEmployee(final AddOrEditEmployeeRequest addEmployeeRequest) {
         final Employee employee = Employee.builder()
-                .employeeId(UUID.randomUUID())
                 .firstName(addEmployeeRequest.getFirstName())
                 .lastName(addEmployeeRequest.getLastName())
                 .email(addEmployeeRequest.getEmail())
