@@ -11,7 +11,7 @@ public interface EmployeeService {
 
     GetEmployeeResponse getEmployee(final UUID employeeId);
 
-    String addEmployee(final AddOrEditEmployeeRequest addEmployeeRequest);
+    UUID addEmployee(final AddOrEditEmployeeRequest addEmployeeRequest);
 
     String updateEmployee(final UUID employeeId, final AddOrEditEmployeeRequest addEmployeeRequest);
 

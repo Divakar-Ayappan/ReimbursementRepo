@@ -45,8 +45,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String addEmployee(final AddOrEditEmployeeRequest addEmployeeRequest) {
+    public UUID addEmployee(final AddOrEditEmployeeRequest addEmployeeRequest) {
         final Employee employee = Employee.builder()
+                .employeeId(UUID.randomUUID())
                 .firstName(addEmployeeRequest.getFirstName())
                 .lastName(addEmployeeRequest.getLastName())
                 .email(addEmployeeRequest.getEmail())
@@ -58,9 +59,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .jobTitle(addEmployeeRequest.getJobTitle())
                 .role(addEmployeeRequest.getRole())
                 .build();
-        System.out.println("Saving employee: " + employee);
         employeeRepo.save(employee);
-        return "Employee Saved successfully";
+        return employee.getEmployeeId();
     }
 
     @Override

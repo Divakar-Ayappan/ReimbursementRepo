@@ -1,12 +1,14 @@
 package com.divum.reimbursement_platform.employee.entity;
 
 import com.divum.reimbursement_platform.commons.entity.BaseTimeFields;
+import com.divum.reimbursement_platform.reimbursementRequest.entity.ReimbursementRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +17,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
@@ -24,9 +28,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Employee extends BaseTimeFields {
+
     @Id
-    @GeneratedValue
-    @UuidGenerator
     @Column(updatable = false, nullable = false)
     private UUID employeeId;
 
@@ -53,5 +56,7 @@ public class Employee extends BaseTimeFields {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @ManyToMany(mappedBy = "employees")
+    private List<ReimbursementRequest> claimRequests = new ArrayList<>();
 }
 

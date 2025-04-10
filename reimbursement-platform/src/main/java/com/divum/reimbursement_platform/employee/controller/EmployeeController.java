@@ -41,9 +41,9 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<SuccessResponse> addEmployee(@RequestBody @Valid final AddOrEditEmployeeRequest addOrEditEmployeeRequest){
         log.info("Received request for adding employee: {}",  addOrEditEmployeeRequest);
-        employeeService.addEmployee(addOrEditEmployeeRequest);
+        final UUID employeeId = employeeService.addEmployee(addOrEditEmployeeRequest);
         return ResponseEntity.status(HttpStatus.CREATED).
-                body(new SuccessResponse("Employee added successfully", CREATED));
+                body(new SuccessResponse(employeeId.toString(),"Employee added successfully", CREATED));
     }
 
     @PutMapping("/{employeeId}")
