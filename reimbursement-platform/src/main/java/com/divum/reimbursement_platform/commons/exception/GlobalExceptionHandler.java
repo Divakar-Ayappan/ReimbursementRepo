@@ -1,5 +1,6 @@
 package com.divum.reimbursement_platform.commons.exception;
 
+import com.divum.reimbursement_platform.commons.exception.entity.EntityAlreadyExistsException;
 import com.divum.reimbursement_platform.commons.exception.entity.EntityNotFoundException;
 import com.divum.reimbursement_platform.commons.exception.entity.ErrorResponse;
 import lombok.extern.log4j.Log4j2;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.divum.reimbursement_platform.commons.exception.entity.ErrorCode.INVALID_REQUEST;
 import static com.divum.reimbursement_platform.commons.exception.entity.ErrorCode.VALIDATIONS_FAILED;
 
 @Log4j2
@@ -84,6 +86,34 @@ public class GlobalExceptionHandler {
         final ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), ex.getErrorCode().toString());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    /**
+     * Handles {@link EntityAlreadyExistsException} and returns a structured {@link ErrorResponse}
+     * with a 400 BAD REQUEST status.
+     *
+     * <p>This ensures that when any entity, such as Employee, Team, etc., is already present but an attempt
+     * is made to add it again, the API responds with a clear, predictable structure, indicating the conflict.
+     *
+     * @param ex the exception thrown when an entity is already present
+     * @return a {@link ResponseEntity} containing the error details
+     */
+    @ExceptionHandler(EntityAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleEntityAlreadyExistsException(EntityAlreadyExistsException ex) {
+        log.info("Entering Exception Handler");
+        log.info(ex.getMessage());
+        final ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), ex.getErrorCode().toString());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalAccessException(IllegalArgumentException ex) {
+        log.info("Entering Exception Handler");
+        log.info(ex.getMessage());
+        final ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), INVALID_REQUEST.toString());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }
 

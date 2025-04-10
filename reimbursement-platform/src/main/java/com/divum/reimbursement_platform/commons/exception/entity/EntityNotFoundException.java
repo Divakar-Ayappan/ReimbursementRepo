@@ -34,7 +34,7 @@ public class EntityNotFoundException extends RuntimeException {
      * @param identifier the value used to search for the entity (e.g., ID, email, name)
      */
     public EntityNotFoundException(final String entityName, final String identifier) {
-        this.message = String.format("%s with identifier %s not found", entityName, identifier);
+        this.message = String.format("%s with identifier %s not found!", entityName, identifier);
         this.errorCode = ErrorCode.ENTITY_NOT_FOUND;
     }
 }
