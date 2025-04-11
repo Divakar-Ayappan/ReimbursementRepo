@@ -90,7 +90,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public String deleteEmployee(final UUID employeeId) {
         final Optional<Employee> employee = employeeRepo.findById(employeeId);
-        System.out.println(employee);
+
         if(employee.isEmpty()) {
             throw new EntityNotFoundException("Employee", employeeId.toString());
         }
