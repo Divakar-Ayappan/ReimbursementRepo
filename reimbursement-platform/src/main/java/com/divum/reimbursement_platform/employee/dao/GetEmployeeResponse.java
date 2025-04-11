@@ -34,4 +34,6 @@ public class GetEmployeeResponse {
     private Role role;
 
     private Status status;
+
+    private Long projectId;
 }

@@ -6,9 +6,12 @@ import com.divum.reimbursement_platform.employee.dao.GetEmployeeResponse;
 import com.divum.reimbursement_platform.employee.entity.Employee;
 import com.divum.reimbursement_platform.employee.repo.EmployeeRepo;
 import com.divum.reimbursement_platform.employee.service.EmployeeService;
+import com.divum.reimbursement_platform.projects.dao.GetProjectResponse;
+import com.divum.reimbursement_platform.projects.entity.Project;
+import com.divum.reimbursement_platform.projects.service.ProjectService;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,10 +19,12 @@ import java.util.UUID;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
-    private EmployeeRepo employeeRepo;
+    private final EmployeeRepo employeeRepo;
+
+    private final ProjectService projectService;
 
     @Override
     public GetEmployeeResponse getEmployee(@NonNull final UUID employeeId) {
@@ -41,11 +46,20 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .joinDate(employee.get().getJoinDate())
                 .jobTitle(employee.get().getJobTitle())
                 .role(employee.get().getRole())
+                .projectId(employee.get().getProject().getProjectId())
                 .build();
     }
 
     @Override
     public UUID addEmployee(final AddOrEditEmployeeRequest addEmployeeRequest) {
+        log.info("Adding employee {}", addEmployeeRequest);
+
+        final GetProjectResponse projectResponse = projectService.getProjectById(addEmployeeRequest.getProjectId());
+
+        final Project project = Project.builder()
+                .projectId(projectResponse.getProjectId())
+                .build();
+
         final Employee employee = Employee.builder()
                 .employeeId(UUID.randomUUID())
                 .firstName(addEmployeeRequest.getFirstName())
@@ -58,6 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .joinDate(addEmployeeRequest.getJoinDate())
                 .jobTitle(addEmployeeRequest.getJobTitle())
                 .role(addEmployeeRequest.getRole())
+                .project(project)
                 .build();
         employeeRepo.save(employee);
         return employee.getEmployeeId();
