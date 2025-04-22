@@ -1,10 +1,10 @@
-package com.divum.reimbursement_platform.reimbursementRequest.controller;
+package com.divum.reimbursement_platform.reimbursementRequest.claims.controller;
 
 import com.divum.reimbursement_platform.commons.entity.SuccessResponse;
-import com.divum.reimbursement_platform.reimbursementRequest.dao.AddOrEditReimbursementRequest;
-import com.divum.reimbursement_platform.reimbursementRequest.dao.GetReimbursementResponse;
-import com.divum.reimbursement_platform.reimbursementRequest.dao.GetRequestsFilter;
-import com.divum.reimbursement_platform.reimbursementRequest.service.ReimbursementRequestService;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.AddOrEditReimbursementRequest;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetRequestsFilter;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetReimbursementResponse;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.service.ReimbursementRequestService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

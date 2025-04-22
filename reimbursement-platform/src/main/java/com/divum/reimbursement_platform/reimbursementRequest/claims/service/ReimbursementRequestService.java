@@ -1,8 +1,8 @@
-package com.divum.reimbursement_platform.reimbursementRequest.service;
+package com.divum.reimbursement_platform.reimbursementRequest.claims.service;
 
-import com.divum.reimbursement_platform.reimbursementRequest.dao.AddOrEditReimbursementRequest;
-import com.divum.reimbursement_platform.reimbursementRequest.dao.GetReimbursementResponse;
-import com.divum.reimbursement_platform.reimbursementRequest.dao.GetRequestsFilter;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.AddOrEditReimbursementRequest;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetReimbursementResponse;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetRequestsFilter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

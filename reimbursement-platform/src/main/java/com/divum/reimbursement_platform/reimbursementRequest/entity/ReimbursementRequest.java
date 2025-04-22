@@ -2,6 +2,8 @@ package com.divum.reimbursement_platform.reimbursementRequest.entity;
 
 import com.divum.reimbursement_platform.commons.entity.BaseTimeFields;
 import com.divum.reimbursement_platform.employee.entity.Employee;
+import com.divum.reimbursement_platform.employee.entity.JobTitle;
+import com.divum.reimbursement_platform.employee.entity.Role;
 import com.divum.reimbursement_platform.rules.entity.RuleCategory;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -87,4 +89,14 @@ public class ReimbursementRequest extends BaseTimeFields {
     )
     private List<Employee> employees = new ArrayList<>();
 
+    /**
+     * This is to mention with whom the request is pending, use {@link Role} to define this,
+     * for example, if the request is pending with manager, then the value will be {@link Role#MANAGER}
+     * if rejected or approved by everyone, it will be moved to  {@link Role#EMPLOYEE}
+     */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role pendingWith;
+
+    private String commentByAdmin;
 }

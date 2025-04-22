@@ -1,4 +1,4 @@
-package com.divum.reimbursement_platform.reimbursementRequest.dao;
+package com.divum.reimbursement_platform.reimbursementRequest.claims.dao;
 
 import com.divum.reimbursement_platform.reimbursementRequest.entity.RejectionReason;
 import com.divum.reimbursement_platform.rules.entity.RuleCategory;

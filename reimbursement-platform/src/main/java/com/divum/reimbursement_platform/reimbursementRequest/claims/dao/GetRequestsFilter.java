@@ -1,4 +1,4 @@
-package com.divum.reimbursement_platform.reimbursementRequest.dao;
+package com.divum.reimbursement_platform.reimbursementRequest.claims.dao;
 
 public enum GetRequestsFilter {
     CANCELLED,

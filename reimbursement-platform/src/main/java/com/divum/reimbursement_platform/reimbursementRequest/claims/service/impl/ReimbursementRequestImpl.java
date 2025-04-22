@@ -1,17 +1,18 @@
-package com.divum.reimbursement_platform.reimbursementRequest.service.impl;
+package com.divum.reimbursement_platform.reimbursementRequest.claims.service.impl;
 
 import com.divum.reimbursement_platform.commons.exception.entity.EntityNotFoundException;
 import com.divum.reimbursement_platform.employee.entity.Employee;
+import com.divum.reimbursement_platform.employee.entity.Role;
 import com.divum.reimbursement_platform.employee.repo.EmployeeRepo;
 import com.divum.reimbursement_platform.employee.service.EmployeeService;
-import com.divum.reimbursement_platform.reimbursementRequest.dao.AddOrEditReimbursementRequest;
-import com.divum.reimbursement_platform.reimbursementRequest.dao.GetReimbursementResponse;
-import com.divum.reimbursement_platform.reimbursementRequest.dao.GetRequestsFilter;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.AddOrEditReimbursementRequest;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetReimbursementResponse;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetRequestsFilter;
 import com.divum.reimbursement_platform.reimbursementRequest.entity.ClaimedDate;
 import com.divum.reimbursement_platform.reimbursementRequest.entity.ReimbursementRequest;
 import com.divum.reimbursement_platform.reimbursementRequest.entity.RequestStatus;
 import com.divum.reimbursement_platform.reimbursementRequest.repo.ReimbursementRepo;
-import com.divum.reimbursement_platform.reimbursementRequest.service.ReimbursementRequestService;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.service.ReimbursementRequestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import static com.divum.reimbursement_platform.reimbursementRequest.dao.GetRequestsFilter.PENDING;
+import static com.divum.reimbursement_platform.employee.entity.Role.MANAGER;
+import static com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetRequestsFilter.PENDING;
 import static com.divum.reimbursement_platform.reimbursementRequest.entity.RequestStatus.CANCELLED;
 
 @Log4j2
@@ -59,6 +60,7 @@ public class ReimbursementRequestImpl implements ReimbursementRequestService {
                 .commentByRequester(addReimbursementRequest.getCommentByRequester())
                 .managerId(requester.get().getManagerId())
                 .status(RequestStatus.PENDING)
+                .pendingWith(MANAGER)
                 .build();
 
         List<Employee> employees = new ArrayList<>();

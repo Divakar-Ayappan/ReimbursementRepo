@@ -1,10 +1,9 @@
-package com.divum.reimbursement_platform.reimbursementRequest.dao;
+package com.divum.reimbursement_platform.reimbursementRequest.claims.dao;
 
 import com.divum.reimbursement_platform.rules.entity.RuleCategory;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
