@@ -2,7 +2,6 @@ package com.divum.reimbursement_platform.reimbursementRequest.entity;
 
 import com.divum.reimbursement_platform.commons.entity.BaseTimeFields;
 import com.divum.reimbursement_platform.employee.entity.Employee;
-import com.divum.reimbursement_platform.employee.entity.JobTitle;
 import com.divum.reimbursement_platform.employee.entity.Role;
 import com.divum.reimbursement_platform.rules.entity.RuleCategory;
 import jakarta.persistence.CascadeType;
@@ -10,7 +9,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -22,7 +20,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;

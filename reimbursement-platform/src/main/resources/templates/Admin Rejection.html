@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reimbursement Notification</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        .header {
+            background-color: #f0f4f8;
+            padding: 15px 20px;
+            text-align: left;
+            border-radius: 6px 6px 0 0;
+            border-bottom: 1px solid #d6dce5;
+        }
+        .header h2 {
+            color: #2d3e50;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+        }
+        .details {
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+        .footer {
+            background-color: #f1f1f1;
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-radius: 0 0 6px 6px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+        .button {
+            display: inline-block;
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .status {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .approved {
+            color: #28a745;
+        }
+        .rejected {
+            color: #dc3545;
+        }
+        .pending {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h2>Reimbursement Claim Update</h2>
+</div>
+
+<div class="content">
+    <p>Dear {employeeName},</p>
+
+    <p>Your reimbursement request has been <text class="rejected"> REJECTED </text>  by Admin team, the reason given was {rejectedReason}.</p>
+
+    <div class="details">
+        <p><strong>Amount:</strong> ₹{amount}</p>
+        <p><strong>Date Rejected:</strong> {rejectedDate}</p>
+        <p><strong>Category:</strong> {category}</p>
+        <p><strong>Reason:</strong> {rejectedReason}</p>
+    </div>
+
+    <p>Visit out portal for more information.</p>
+    <p>Please reach out to your manager or admin team if any discrepancies.</p>
+
+</div>
+
+<div class="footer">
+    <p>This is an automated message from the Company Reimbursement System.</p>
+</div>
+</body>
+</html>

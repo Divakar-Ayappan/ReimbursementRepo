@@ -1,21 +1,22 @@
 package com.divum.reimbursement_platform.reimbursementRequest.claims.service.impl;
 
+import com.divum.reimbursement_platform.async.request.events.RequestSubmittedEvent;
 import com.divum.reimbursement_platform.commons.exception.entity.EntityNotFoundException;
 import com.divum.reimbursement_platform.employee.entity.Employee;
-import com.divum.reimbursement_platform.employee.entity.Role;
 import com.divum.reimbursement_platform.employee.repo.EmployeeRepo;
-import com.divum.reimbursement_platform.employee.service.EmployeeService;
 import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.AddOrEditReimbursementRequest;
 import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetReimbursementResponse;
 import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetRequestsFilter;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.service.ReimbursementRequestService;
 import com.divum.reimbursement_platform.reimbursementRequest.entity.ClaimedDate;
 import com.divum.reimbursement_platform.reimbursementRequest.entity.ReimbursementRequest;
 import com.divum.reimbursement_platform.reimbursementRequest.entity.RequestStatus;
 import com.divum.reimbursement_platform.reimbursementRequest.repo.ReimbursementRepo;
-import com.divum.reimbursement_platform.reimbursementRequest.claims.service.ReimbursementRequestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,13 +34,14 @@ import static com.divum.reimbursement_platform.reimbursementRequest.entity.Reque
 @RequiredArgsConstructor
 public class ReimbursementRequestImpl implements ReimbursementRequestService {
 
-    final EmployeeService employeeService;
+    private final EmployeeRepo employeeRepo;
 
-    final EmployeeRepo employeeRepo;
+    private final ReimbursementRepo reimbursementRepo;
 
-    final ReimbursementRepo reimbursementRepo;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
+    @Transactional
     public UUID createReimbursementRequest(final AddOrEditReimbursementRequest addReimbursementRequest) {
 
         validateReimbursementRequest(addReimbursementRequest);
@@ -82,6 +84,9 @@ public class ReimbursementRequestImpl implements ReimbursementRequestService {
         reimbursementRequest.setClaimedDates(claimedDates);
 
         reimbursementRepo.save(reimbursementRequest);
+
+        eventPublisher.publishEvent(new RequestSubmittedEvent(this, reimbursementRequest));
+        log.info("Request submitted event published for request ID: {}", reimbursementRequest.getRequestId());
 
         return reimbursementRequest.getRequestId();
     }
