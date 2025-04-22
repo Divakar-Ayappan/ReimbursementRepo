@@ -6,9 +6,6 @@ import com.divum.reimbursement_platform.employee.dao.GetEmployeeResponse;
 import com.divum.reimbursement_platform.employee.entity.Employee;
 import com.divum.reimbursement_platform.employee.repo.EmployeeRepo;
 import com.divum.reimbursement_platform.employee.service.EmployeeService;
-import com.divum.reimbursement_platform.projects.dao.GetProjectResponse;
-import com.divum.reimbursement_platform.projects.entity.Project;
-import com.divum.reimbursement_platform.projects.service.ProjectService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,8 +20,6 @@ import java.util.UUID;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepo employeeRepo;
-
-    private final ProjectService projectService;
 
     @Override
     public GetEmployeeResponse getEmployee(@NonNull final UUID employeeId) {
@@ -46,19 +41,13 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .joinDate(employee.get().getJoinDate())
                 .jobTitle(employee.get().getJobTitle())
                 .role(employee.get().getRole())
-                .projectId(employee.get().getProject().getProjectId())
+                .managerId(employee.get().getManagerId())
                 .build();
     }
 
     @Override
     public UUID addEmployee(final AddOrEditEmployeeRequest addEmployeeRequest) {
         log.info("Adding employee {}", addEmployeeRequest);
-
-        final GetProjectResponse projectResponse = projectService.getProjectById(addEmployeeRequest.getProjectId());
-
-        final Project project = Project.builder()
-                .projectId(projectResponse.getProjectId())
-                .build();
 
         final Employee employee = Employee.builder()
                 .employeeId(UUID.randomUUID())
@@ -72,14 +61,14 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .joinDate(addEmployeeRequest.getJoinDate())
                 .jobTitle(addEmployeeRequest.getJobTitle())
                 .role(addEmployeeRequest.getRole())
-                .project(project)
+                .managerId(addEmployeeRequest.getManagerId())
                 .build();
         employeeRepo.save(employee);
         return employee.getEmployeeId();
     }
 
     @Override
-    public String updateEmployee(UUID employeeId, AddOrEditEmployeeRequest addEmployeeRequest) {
+    public String updateEmployee(UUID employeeId, AddOrEditEmployeeRequest updateEmployeeRequest) {
 
         final Optional<Employee> employee = employeeRepo.findById(employeeId);
         if (employee.isEmpty()) {
@@ -87,16 +76,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         final Employee employeeToUpdate = employee.get();
-        employeeToUpdate.setFirstName(addEmployeeRequest.getFirstName());
-        employeeToUpdate.setLastName(addEmployeeRequest.getLastName());
-        employeeToUpdate.setEmail(addEmployeeRequest.getEmail());
-        employeeToUpdate.setPhoneNumber(addEmployeeRequest.getPhoneNumber());
-        employeeToUpdate.setDob(addEmployeeRequest.getDob());
-        employeeToUpdate.setStatus(addEmployeeRequest.getStatus());
-        employeeToUpdate.setGender(addEmployeeRequest.getGender());
-        employeeToUpdate.setJoinDate(addEmployeeRequest.getJoinDate());
-        employeeToUpdate.setJobTitle(addEmployeeRequest.getJobTitle());
-        employeeToUpdate.setRole(addEmployeeRequest.getRole());
+        employeeToUpdate.setFirstName(updateEmployeeRequest.getFirstName());
+        employeeToUpdate.setLastName(updateEmployeeRequest.getLastName());
+        employeeToUpdate.setEmail(updateEmployeeRequest.getEmail());
+        employeeToUpdate.setPhoneNumber(updateEmployeeRequest.getPhoneNumber());
+        employeeToUpdate.setDob(updateEmployeeRequest.getDob());
+        employeeToUpdate.setStatus(updateEmployeeRequest.getStatus());
+        employeeToUpdate.setGender(updateEmployeeRequest.getGender());
+        employeeToUpdate.setJoinDate(updateEmployeeRequest.getJoinDate());
+        employeeToUpdate.setJobTitle(updateEmployeeRequest.getJobTitle());
+        employeeToUpdate.setRole(updateEmployeeRequest.getRole());
+        employeeToUpdate.setManagerId(updateEmployeeRequest.getManagerId());
         employeeRepo.save(employeeToUpdate);
 
         return "Employee Updated Successfully";

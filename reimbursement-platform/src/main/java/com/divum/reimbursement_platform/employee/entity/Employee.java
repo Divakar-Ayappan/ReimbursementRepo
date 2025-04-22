@@ -1,17 +1,13 @@
 package com.divum.reimbursement_platform.employee.entity;
 
 import com.divum.reimbursement_platform.commons.entity.BaseTimeFields;
-import com.divum.reimbursement_platform.projects.entity.Project;
 import com.divum.reimbursement_platform.reimbursementRequest.entity.ReimbursementRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -61,9 +57,5 @@ public class Employee extends BaseTimeFields {
     @ManyToMany(mappedBy = "employees")
     private List<ReimbursementRequest> claimRequests = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id", nullable = false)
-    private Project project;
-
+    private UUID managerId;
 }
-

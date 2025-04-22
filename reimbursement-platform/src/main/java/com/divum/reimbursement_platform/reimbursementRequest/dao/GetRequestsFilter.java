@@ -1,7 +1,7 @@
 package com.divum.reimbursement_platform.reimbursementRequest.dao;
 
 public enum GetRequestsFilter {
-    ALL,
+    CANCELLED,
     PENDING,
     APPROVED,
     REJECTED

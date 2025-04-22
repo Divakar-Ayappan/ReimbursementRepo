@@ -35,5 +35,5 @@ public class GetEmployeeResponse {
 
     private Status status;
 
-    private Long projectId;
+    private UUID managerId;
 }

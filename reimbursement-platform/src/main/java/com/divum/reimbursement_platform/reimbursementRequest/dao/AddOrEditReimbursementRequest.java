@@ -2,6 +2,7 @@ package com.divum.reimbursement_platform.reimbursementRequest.dao;
 
 import com.divum.reimbursement_platform.rules.entity.RuleCategory;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-public class AddReimbursementRequest {
+public class AddOrEditReimbursementRequest {
 
     @NotNull
     private LocalDate fromDate;
@@ -31,9 +32,9 @@ public class AddReimbursementRequest {
     @URL
     private String attachment;
 
-    private List<LocalDate> requestingDates;
+    private List<LocalDate> claimedDates;
 
-    @Length(max = 5, message = "Maximum 5 employees can be added")
+    @Size(max = 5, message = "Maximum 5 employees can be added")
     private List<UUID> employees;
 
     private String commentByRequester;

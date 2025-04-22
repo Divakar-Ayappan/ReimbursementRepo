@@ -24,7 +24,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepo projectRepo;
 
-    private final EmployeeRepo employeeRepo;
+//    private final EmployeeRepo employeeRepo;
 
 
     @Override
@@ -51,7 +51,7 @@ public class ProjectServiceImpl implements ProjectService {
     public void createProject(final AddOrUpdateProjectRequest addProjectRequest) {
         log.info("Creating project wit request: {}", addProjectRequest);
 
-        final List<Employee> employees = employeeRepo.findAllById(addProjectRequest.getEmployees());
+//        final List<Employee> employees = employeeRepo.findAllById(addProjectRequest.getEmployees());
 
         final Project project = Project.builder()
                 .name(addProjectRequest.getProjectName())
@@ -59,7 +59,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .projectStatus(LocalDate.now().isBefore(addProjectRequest.getStartDate()) ?
                         ProjectStatus.IN_PIPELINE : ProjectStatus.ONGOING)
                 .managerId(addProjectRequest.getManagerId())
-                .employees(employees)
+//                .employees(employees)
                 .startDate(addProjectRequest.getStartDate())
                 .build();
 
@@ -76,7 +76,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectToUpdate.setDescription(updateProjectRequest.getDescription());
         projectToUpdate.setProjectStatus(updateProjectRequest.getProjectStatus());
         projectToUpdate.setManagerId(updateProjectRequest.getManagerId());
-        projectToUpdate.setEmployees(employeeRepo.findAllById(updateProjectRequest.getEmployees()));
+//        projectToUpdate.setEmployees(employeeRepo.findAllById(updateProjectRequest.getEmployees()));
         projectToUpdate.setStartDate(updateProjectRequest.getStartDate());
 
         log.info("Updating project: {}", projectToUpdate);
@@ -92,7 +92,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .description(project.getDescription())
                 .status(project.getProjectStatus())
                 .managerId(project.getManagerId())
-                .employees(project.getEmployees().stream().map(Employee::getEmployeeId).toList())
+//                .employees(project.getEmployees().stream().map(Employee::getEmployeeId).toList())
                 .startDate(project.getStartDate())
                 .build();
     }

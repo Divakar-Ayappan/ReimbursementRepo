@@ -53,6 +53,7 @@ public class AddOrEditEmployeeRequest {
     @NotNull(message = "Status is required")
     private Status status;
 
-    private Long projectId;
+    @NotNull
+    private UUID managerId;
 }
 

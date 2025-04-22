@@ -2,6 +2,7 @@ package com.divum.reimbursement_platform.reimbursementRequest.dao;
 
 import com.divum.reimbursement_platform.reimbursementRequest.entity.RejectionReason;
 import com.divum.reimbursement_platform.rules.entity.RuleCategory;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@Builder
 public class GetReimbursementResponse {
 
     private UUID requestId;

@@ -47,8 +47,6 @@ public class ReimbursementRequest extends BaseTimeFields {
     @Column(nullable = false)
     private UUID employeeId;
 
-    private UUID projectId;
-
     @Column(nullable = false)
     private UUID managerId;
 
@@ -72,7 +70,8 @@ public class ReimbursementRequest extends BaseTimeFields {
 
     private String commentByManager;
 
-    private String rejectedReason;
+    @Enumerated(EnumType.STRING)
+    private RejectionReason rejectedReason;
 
     @OneToMany(mappedBy = "reimbursementRequest", cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
