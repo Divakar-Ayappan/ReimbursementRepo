@@ -5,6 +5,9 @@ import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.AddOrEdi
 import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetRequestsFilter;
 import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetReimbursementResponse;
 import com.divum.reimbursement_platform.reimbursementRequest.claims.service.ReimbursementRequestService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -30,11 +33,22 @@ import static com.divum.reimbursement_platform.commons.entity.StatusCode.UPDATED
 @RestController
 @RequestMapping("/request")
 @RequiredArgsConstructor
+@Tag(name = "Claims Management", description = "APIs for reimbursement claims")
 public class ReimbursementRequestController {
 
     private final ReimbursementRequestService reimbursementRequestService;
 
     @PostMapping
+    @Operation(
+            summary = "Create Claim",
+            description = "Creates a reimbursement claim for the employee",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Claim Created"),
+                    @ApiResponse(responseCode = "400", description = "Invalid Claim"),
+                    @ApiResponse(responseCode = "500", description = "Unable to create claim")
+            }
+    )
+
     public ResponseEntity<SuccessResponse> createReimbursementRequest(
             @RequestBody @Valid AddOrEditReimbursementRequest addRequest){
         log.info("Request received to create reimbursement request: {}", addRequest);
