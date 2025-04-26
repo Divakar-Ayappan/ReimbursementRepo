@@ -20,7 +20,7 @@
             <AppenderRef ref="FileLogger"/>
         </Root>
 
-        <Logger name="com.divakar" level="debug" additivity="false">
+        <Logger name="com.divum" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="FileLogger"/>
         </Logger>
