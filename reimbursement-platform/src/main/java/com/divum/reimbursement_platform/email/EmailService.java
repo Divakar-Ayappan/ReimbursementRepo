@@ -61,7 +61,7 @@ public class EmailService {
             helper.setText(htmlContent, true);
 
 //            log.info("Sending email to {} with template {}", receiver, templatePath);
-            mailSender.send(message);
+//            mailSender.send(message);
             log.info("Sent email to {} with template {}", receiver, templatePath);
         } catch (MessagingException e) {
             log.error("Error while sending email to {} with template {}", receiver, templatePath);

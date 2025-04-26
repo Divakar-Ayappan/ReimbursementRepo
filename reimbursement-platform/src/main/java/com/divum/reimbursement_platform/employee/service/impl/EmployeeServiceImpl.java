@@ -9,6 +9,7 @@ import com.divum.reimbursement_platform.employee.service.EmployeeService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,6 +21,8 @@ import java.util.UUID;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepo employeeRepo;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public GetEmployeeResponse getEmployee(@NonNull final UUID employeeId) {
@@ -62,6 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .jobTitle(addEmployeeRequest.getJobTitle())
                 .role(addEmployeeRequest.getRole())
                 .managerId(addEmployeeRequest.getManagerId())
+                .password(passwordEncoder.encode(addEmployeeRequest.getPassword()))
                 .build();
         employeeRepo.save(employee);
         return employee.getEmployeeId();
@@ -87,6 +91,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeToUpdate.setJobTitle(updateEmployeeRequest.getJobTitle());
         employeeToUpdate.setRole(updateEmployeeRequest.getRole());
         employeeToUpdate.setManagerId(updateEmployeeRequest.getManagerId());
+        //TODO Add password changing logic.
+//        employeeToUpdate.setPassword();
         employeeRepo.save(employeeToUpdate);
 
         return "Employee Updated Successfully";

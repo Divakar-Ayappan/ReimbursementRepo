@@ -1,5 +1,6 @@
 package com.divum.reimbursement_platform.employee.controller;
 
+import com.divum.reimbursement_platform.annotations.Authenticated;
 import com.divum.reimbursement_platform.commons.entity.SuccessResponse;
 import com.divum.reimbursement_platform.employee.dao.AddOrEditEmployeeRequest;
 import com.divum.reimbursement_platform.employee.dao.GetEmployeeResponse;
@@ -33,6 +34,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping("/{employeeId}")
+    @Authenticated
     public ResponseEntity<GetEmployeeResponse> getEmployeeDetails(@PathVariable("employeeId") final UUID employeeId){
         log.info("Received request for fetching employee: {}", employeeId);
         return ResponseEntity.ok(employeeService.getEmployee(employeeId));

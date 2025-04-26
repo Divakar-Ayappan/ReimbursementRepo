@@ -58,4 +58,6 @@ public class Employee extends BaseTimeFields {
     private List<ReimbursementRequest> claimRequests = new ArrayList<>();
 
     private UUID managerId;
+
+    private String password;
 }
