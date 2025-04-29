@@ -1,9 +1,10 @@
 package com.divum.reimbursement_platform.reimbursementRequest.claims.controller;
 
+import com.divum.reimbursement_platform.annotations.Authenticated;
 import com.divum.reimbursement_platform.commons.entity.SuccessResponse;
 import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.AddOrEditReimbursementRequest;
-import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetRequestsFilter;
 import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetReimbursementResponse;
+import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetRequestsFilter;
 import com.divum.reimbursement_platform.reimbursementRequest.claims.service.ReimbursementRequestService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -48,7 +49,7 @@ public class ReimbursementRequestController {
                     @ApiResponse(responseCode = "500", description = "Unable to create claim")
             }
     )
-
+    @Authenticated
     public ResponseEntity<SuccessResponse> createReimbursementRequest(
             @RequestBody @Valid AddOrEditReimbursementRequest addRequest){
         log.info("Request received to create reimbursement request: {}", addRequest);
@@ -59,6 +60,7 @@ public class ReimbursementRequestController {
     }
 
     @GetMapping("/{id}")
+    @Authenticated
     public ResponseEntity<GetReimbursementResponse> getReimbursementRequestById(@PathVariable final UUID id){
         log.info("Request received to get reimbursement request by id: {}", id);
 
@@ -68,6 +70,7 @@ public class ReimbursementRequestController {
     }
 
     @GetMapping("/employee/{id}")
+    @Authenticated
     public ResponseEntity<List<GetReimbursementResponse>> getReimbursementRequestByEmployeeId(
             @PathVariable final UUID id,
             @RequestParam(value = "filter", required = false) final GetRequestsFilter filter){

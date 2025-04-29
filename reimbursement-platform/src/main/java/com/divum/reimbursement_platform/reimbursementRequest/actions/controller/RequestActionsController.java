@@ -1,6 +1,9 @@
 package com.divum.reimbursement_platform.reimbursementRequest.actions.controller;
 
+import com.divum.reimbursement_platform.annotations.Authenticated;
+import com.divum.reimbursement_platform.annotations.Authorized;
 import com.divum.reimbursement_platform.commons.entity.SuccessResponse;
+import com.divum.reimbursement_platform.employee.entity.Role;
 import com.divum.reimbursement_platform.reimbursementRequest.actions.dao.ActionRequest;
 import com.divum.reimbursement_platform.reimbursementRequest.actions.service.RequestActionsService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,8 @@ public class RequestActionsController {
     private final RequestActionsService requestActionsService;
 
     @PostMapping("/{id}")
+    @Authenticated
+    @Authorized(Role.MANAGER)
     public ResponseEntity<SuccessResponse> performActionForManager(@PathVariable("id") final UUID requestId,
                                                                    @RequestBody final ActionRequest actionRequest) {
         log.info("Received request for {} the reimbursement claim {} by manager",
@@ -36,6 +41,8 @@ public class RequestActionsController {
     }
 
     @PostMapping("/admin/{id}")
+    @Authenticated
+    @Authorized(Role.ADMIN)
     public ResponseEntity<SuccessResponse> performActionForAdmin(@PathVariable("id") final UUID requestId,
                                                                  @RequestBody final ActionRequest actionRequest) {
         log.info("Received request for {} the reimbursement claim {} by admin",

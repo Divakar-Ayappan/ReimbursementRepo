@@ -32,6 +32,7 @@ public class AuthController {
         Optional<Employee> employeeOpt = employeeRepo.findByEmail(loginRequest.getEmail());
 
         if (employeeOpt.isEmpty()) {
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email");
         }
 
@@ -41,7 +42,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid password");
         }
 
-        String token = jwtUtil.generateToken(employee.getEmail(), employee.getRole());
+        String token = jwtUtil.generateToken(employee);
 
 //        ResponseCookie cookie = ResponseCookie.from("token", token)
 //                .httpOnly(true)
