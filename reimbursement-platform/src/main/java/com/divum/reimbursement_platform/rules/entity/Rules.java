@@ -41,4 +41,6 @@ public class Rules extends BaseTimeFields {
 
     @Column(nullable = false)
     private boolean isActive = true;
+
+    private String ruleDescription;
 }

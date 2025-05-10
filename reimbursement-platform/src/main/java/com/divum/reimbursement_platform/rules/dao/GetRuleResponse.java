@@ -16,4 +16,6 @@ public class GetRuleResponse {
 
     private Integer autoApprovalLimit;
 
+    private String description;
+
 }

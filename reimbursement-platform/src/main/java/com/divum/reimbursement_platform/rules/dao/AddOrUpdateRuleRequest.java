@@ -22,4 +22,6 @@ public class AddOrUpdateRuleRequest {
     private Integer autoApprovalLimit = 0;
 
     private Boolean isActive;
+
+    private String ruleDescription;
 }

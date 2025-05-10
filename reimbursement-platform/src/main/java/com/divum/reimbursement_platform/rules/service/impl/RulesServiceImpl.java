@@ -38,6 +38,7 @@ public class RulesServiceImpl implements RulesService {
                 .reimbursementLimit(addRuleRequest.getReimbursementLimit())
                 .autoApprovalLimit(defaultIfNull(addRuleRequest.getAutoApprovalLimit(), 0))
                 .isActive(true)
+                .ruleDescription(addRuleRequest.getRuleDescription())
                 .build();
 
         log.info("Creating rule: {}", rules);
@@ -58,6 +59,9 @@ public class RulesServiceImpl implements RulesService {
         rules.setReimbursementLimit(updateRuleRequest.getReimbursementLimit());
         rules.setAutoApprovalLimit(defaultIfNull(updateRuleRequest.getAutoApprovalLimit(), 0));
         rules.setActive(defaultIfNull(updateRuleRequest.getIsActive(), rules.isActive()));
+        rules.setRuleDescription(defaultIfNull(updateRuleRequest.getRuleDescription(),
+                String.format("This is the rule for %s. And will be auto approved if the claim is less than %s",
+                        rules.getCategory(), updateRuleRequest.getAutoApprovalLimit())));
 
         log.info("Updating rule: {}", rules);
         rulesRepo.save(rules);
@@ -98,7 +102,15 @@ public class RulesServiceImpl implements RulesService {
                 .ruleCategory(rule.getCategory())
                 .reimbursementLimit(rule.getReimbursementLimit())
                 .autoApprovalLimit(rule.getAutoApprovalLimit())
+                .description(rule.getRuleDescription() + getAutoApprovalTextDescription(rule.getAutoApprovalLimit()))
                 .build();
+    }
+
+    private static String getAutoApprovalTextDescription(final Integer autoApprovalLimit) {
+        if(autoApprovalLimit > 0) {
+            return String.format(" This request will be auto approved if the claimed amount is less than ₹%s", autoApprovalLimit);
+        }
+        return "";
     }
 
 
