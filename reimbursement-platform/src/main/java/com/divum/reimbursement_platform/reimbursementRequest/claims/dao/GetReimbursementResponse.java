@@ -1,5 +1,6 @@
 package com.divum.reimbursement_platform.reimbursementRequest.claims.dao;
 
+import com.divum.reimbursement_platform.employee.entity.Role;
 import com.divum.reimbursement_platform.reimbursementRequest.entity.RejectionReason;
 import com.divum.reimbursement_platform.rules.entity.RuleCategory;
 import lombok.Builder;
@@ -35,4 +36,12 @@ public class GetReimbursementResponse {
     private String rejectionComment;
 
     private String commentByRequester;
+
+    private LocalDate createdAt;
+
+    private LocalDate fromDate;
+
+    private LocalDate toDate;
+
+    private Role pendingWith;
 }

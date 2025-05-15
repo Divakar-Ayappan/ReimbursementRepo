@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ import static com.divum.reimbursement_platform.commons.entity.StatusCode.UPDATED
 @RestController
 @RequestMapping("/request")
 @RequiredArgsConstructor
+@CrossOrigin
 @Tag(name = "Claims Management", description = "APIs for reimbursement claims")
 public class ReimbursementRequestController {
 
@@ -49,7 +51,7 @@ public class ReimbursementRequestController {
                     @ApiResponse(responseCode = "500", description = "Unable to create claim")
             }
     )
-    @Authenticated
+//    @Authenticated
     public ResponseEntity<SuccessResponse> createReimbursementRequest(
             @RequestBody @Valid AddOrEditReimbursementRequest addRequest){
         log.info("Request received to create reimbursement request: {}", addRequest);
@@ -70,7 +72,7 @@ public class ReimbursementRequestController {
     }
 
     @GetMapping("/employee/{id}")
-    @Authenticated
+//    @Authenticated
     public ResponseEntity<List<GetReimbursementResponse>> getReimbursementRequestByEmployeeId(
             @PathVariable final UUID id,
             @RequestParam(value = "filter", required = false) final GetRequestsFilter filter){

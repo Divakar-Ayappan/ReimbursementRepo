@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -108,10 +109,12 @@ public class ReimbursementRequestImpl implements ReimbursementRequestService {
         if (Objects.nonNull(filter)) {
             return reimbursementRepo.findAllByEmployeeId(employeeId).stream()
                     .filter(request -> request.getStatus().name().equals(filter.name()))
+                    .sorted(Comparator.comparing(ReimbursementRequest::getCreatedAt).reversed())
                     .map(this::transformReimbursementToResponse).toList();
         }
 
         return reimbursementRepo.findAllByEmployeeId(employeeId).stream()
+                .sorted(Comparator.comparing(ReimbursementRequest::getCreatedAt).reversed())
                 .map(this::transformReimbursementToResponse).toList();
     }
 
@@ -198,6 +201,10 @@ public class ReimbursementRequestImpl implements ReimbursementRequestService {
                 .rejectionReason(reimbursementRequest.getRejectedReason())
                 .rejectionComment(reimbursementRequest.getCommentByManager())
                 .commentByRequester(reimbursementRequest.getCommentByRequester())
+                .createdAt(LocalDate.from(reimbursementRequest.getCreatedAt()))
+                .fromDate(reimbursementRequest.getFromDate())
+                .toDate(reimbursementRequest.getToDate())
+                .pendingWith(reimbursementRequest.getPendingWith())
                 .build();
     }
 
