@@ -2,7 +2,7 @@ package com.divum.reimbursement_platform.rules.service.impl;
 
 import com.divum.reimbursement_platform.commons.exception.entity.EntityAlreadyExistsException;
 import com.divum.reimbursement_platform.commons.exception.entity.EntityNotFoundException;
-import com.divum.reimbursement_platform.employee.dao.GetRulesFilter;
+import com.divum.reimbursement_platform.employee.dto.GetRulesFilter;
 import com.divum.reimbursement_platform.rules.dao.AddOrUpdateRuleRequest;
 import com.divum.reimbursement_platform.rules.dao.GetRuleResponse;
 import com.divum.reimbursement_platform.rules.entity.Rules;

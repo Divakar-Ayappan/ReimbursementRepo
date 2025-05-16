@@ -1,8 +1,9 @@
 package com.divum.reimbursement_platform.employee.service.impl;
 
 import com.divum.reimbursement_platform.commons.exception.entity.EntityNotFoundException;
-import com.divum.reimbursement_platform.employee.dao.AddOrEditEmployeeRequest;
-import com.divum.reimbursement_platform.employee.dao.GetEmployeeResponse;
+import com.divum.reimbursement_platform.employee.dto.AddOrEditEmployeeRequest;
+import com.divum.reimbursement_platform.employee.dto.GetAllEmployeeResponse;
+import com.divum.reimbursement_platform.employee.dto.GetEmployeeResponse;
 import com.divum.reimbursement_platform.employee.entity.Employee;
 import com.divum.reimbursement_platform.employee.repo.EmployeeRepo;
 import com.divum.reimbursement_platform.employee.service.EmployeeService;
@@ -12,6 +13,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -108,5 +111,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         log.info("Deleting employee {}", employee);
         employeeRepo.deleteById(employeeId);
         return "Employee Deleted Successfully";
+    }
+
+    @Override
+    public List<GetAllEmployeeResponse> getAllEmployees() {
+
+        List<GetAllEmployeeResponse> allEmployees = new ArrayList<>();
+
+        for(Employee employee : employeeRepo.findAll()) {
+            allEmployees.add(
+                    new GetAllEmployeeResponse(employee.getEmployeeId(), employee.getFirstName(), employee.getLastName())
+            );
+        }
+        return allEmployees;
     }
 }

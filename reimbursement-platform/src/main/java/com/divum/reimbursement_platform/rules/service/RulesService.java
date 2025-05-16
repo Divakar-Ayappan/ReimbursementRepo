@@ -1,6 +1,6 @@
 package com.divum.reimbursement_platform.rules.service;
 
-import com.divum.reimbursement_platform.employee.dao.GetRulesFilter;
+import com.divum.reimbursement_platform.employee.dto.GetRulesFilter;
 import com.divum.reimbursement_platform.rules.dao.AddOrUpdateRuleRequest;
 import com.divum.reimbursement_platform.rules.dao.GetRuleResponse;
 import org.springframework.stereotype.Service;

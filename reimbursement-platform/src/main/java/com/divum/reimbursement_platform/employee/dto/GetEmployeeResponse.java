@@ -1,4 +1,4 @@
-package com.divum.reimbursement_platform.employee.dao;
+package com.divum.reimbursement_platform.employee.dto;
 
 import com.divum.reimbursement_platform.employee.entity.JobTitle;
 import com.divum.reimbursement_platform.employee.entity.Role;

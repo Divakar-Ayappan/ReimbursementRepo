@@ -1,7 +1,7 @@
 package com.divum.reimbursement_platform.rules.controller;
 
 import com.divum.reimbursement_platform.commons.entity.SuccessResponse;
-import com.divum.reimbursement_platform.employee.dao.GetRulesFilter;
+import com.divum.reimbursement_platform.employee.dto.GetRulesFilter;
 import com.divum.reimbursement_platform.rules.dao.AddOrUpdateRuleRequest;
 import com.divum.reimbursement_platform.rules.dao.GetRuleResponse;
 import com.divum.reimbursement_platform.rules.service.RulesService;
@@ -24,7 +24,6 @@ import java.util.List;
 
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.CREATED;
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.DEACTIVATED;
-import static com.divum.reimbursement_platform.commons.entity.StatusCode.DELETED;
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.UPDATED;
 
 @RestController

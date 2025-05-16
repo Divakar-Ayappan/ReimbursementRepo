@@ -3,8 +3,9 @@ package com.divum.reimbursement_platform.employee.controller;
 import com.divum.reimbursement_platform.annotations.Authenticated;
 import com.divum.reimbursement_platform.annotations.Authorized;
 import com.divum.reimbursement_platform.commons.entity.SuccessResponse;
-import com.divum.reimbursement_platform.employee.dao.AddOrEditEmployeeRequest;
-import com.divum.reimbursement_platform.employee.dao.GetEmployeeResponse;
+import com.divum.reimbursement_platform.employee.dto.AddOrEditEmployeeRequest;
+import com.divum.reimbursement_platform.employee.dto.GetAllEmployeeResponse;
+import com.divum.reimbursement_platform.employee.dto.GetEmployeeResponse;
 import com.divum.reimbursement_platform.employee.entity.Role;
 import com.divum.reimbursement_platform.employee.service.EmployeeService;
 import jakarta.servlet.http.Cookie;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.CREATED;
@@ -38,7 +40,7 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    @GetMapping
+    @GetMapping("/{id}")//TODO Use cookies to get id.
     @Authenticated
     public ResponseEntity<GetEmployeeResponse> getEmployeeDetails(HttpServletRequest request){
         String token = "";
@@ -84,5 +86,13 @@ public class EmployeeController {
         employeeService.deleteEmployee(employeeId);
 
         return ResponseEntity.ok(new SuccessResponse("Employee deleted successfully", DELETED));
+    }
+
+
+    @GetMapping
+    public ResponseEntity<List<GetAllEmployeeResponse>> getAllEmployees(){
+        log.info("Received request for getting all employees");
+
+        return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 }
