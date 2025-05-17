@@ -5,6 +5,7 @@ import com.divum.reimbursement_platform.employee.dto.AddOrEditEmployeeRequest;
 import com.divum.reimbursement_platform.employee.dto.GetAllEmployeeResponse;
 import com.divum.reimbursement_platform.employee.dto.GetEmployeeResponse;
 import com.divum.reimbursement_platform.employee.entity.Employee;
+import com.divum.reimbursement_platform.employee.entity.Status;
 import com.divum.reimbursement_platform.employee.repo.EmployeeRepo;
 import com.divum.reimbursement_platform.employee.service.EmployeeService;
 import lombok.NonNull;
@@ -15,8 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.divum.reimbursement_platform.employee.entity.Role.EMPLOYEE;
+import static com.divum.reimbursement_platform.employee.entity.Status.ACTIVE;
 
 @Service
 @Log4j2
@@ -118,10 +123,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         List<GetAllEmployeeResponse> allEmployees = new ArrayList<>();
 
-        for(Employee employee : employeeRepo.findAll()) {
+        for(Employee employee : employeeRepo.findAllByRoleAndStatus(EMPLOYEE, ACTIVE)) {
             allEmployees.add(
-                    new GetAllEmployeeResponse(employee.getEmployeeId(), employee.getFirstName(), employee.getLastName())
-            );
+                        new GetAllEmployeeResponse(employee.getEmployeeId(), employee.getFirstName(), employee.getLastName())
+                );
         }
         return allEmployees;
     }
