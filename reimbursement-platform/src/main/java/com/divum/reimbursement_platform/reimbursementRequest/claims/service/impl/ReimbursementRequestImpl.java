@@ -133,7 +133,7 @@ public class ReimbursementRequestImpl implements ReimbursementRequestService {
             throw new EntityNotFoundException("Reimbursement request", reimbursementRequestId.toString());
         }
 
-        if (!Objects.equals(reimbursementRequest.get().getStatus(), PENDING)) {
+        if (!Objects.equals(reimbursementRequest.get().getStatus().toString(), PENDING.toString())) {
             log.warn("User {} is attempting to update the request {} that is already {}",
                     requester.get().getEmployeeId(),
                     reimbursementRequestId,
