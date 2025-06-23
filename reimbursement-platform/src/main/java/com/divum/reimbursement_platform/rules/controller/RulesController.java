@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.divum.reimbursement_platform.commons.Constants.FE_LOCAL_HOST_ENDPOINT;
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.CREATED;
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.DEACTIVATED;
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.UPDATED;
@@ -30,7 +31,7 @@ import static com.divum.reimbursement_platform.commons.entity.StatusCode.UPDATED
 @RequestMapping("/rules")
 @RequiredArgsConstructor
 @Log4j2
-@CrossOrigin
+@CrossOrigin(origins = FE_LOCAL_HOST_ENDPOINT, allowCredentials = "true")
 public class RulesController {
 
     private final RulesService rulesService;

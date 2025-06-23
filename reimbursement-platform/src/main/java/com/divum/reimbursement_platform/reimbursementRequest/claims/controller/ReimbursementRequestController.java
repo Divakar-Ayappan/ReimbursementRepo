@@ -6,9 +6,11 @@ import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.AddOrEdi
 import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetReimbursementResponse;
 import com.divum.reimbursement_platform.reimbursementRequest.claims.dao.GetRequestsFilter;
 import com.divum.reimbursement_platform.reimbursementRequest.claims.service.ReimbursementRequestService;
+import com.divum.reimbursement_platform.security.utils.AuthUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,19 +29,23 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+import static com.divum.reimbursement_platform.commons.Constants.FE_LOCAL_HOST_ENDPOINT;
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.CANCELLED;
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.CREATED;
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.UPDATED;
+
 
 @Log4j2
 @RestController
 @RequestMapping("/request")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = FE_LOCAL_HOST_ENDPOINT, allowCredentials = "true")
 @Tag(name = "Claims Management", description = "APIs for reimbursement claims")
 public class ReimbursementRequestController {
 
     private final ReimbursementRequestService reimbursementRequestService;
+
+    private final AuthUtils authUtil;
 
     @PostMapping
     @Operation(
@@ -71,11 +77,13 @@ public class ReimbursementRequestController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/employee/{id}")
-//    @Authenticated
+    @GetMapping("/employee")
+    @Authenticated
     public ResponseEntity<List<GetReimbursementResponse>> getReimbursementRequestByEmployeeId(
-            @PathVariable final UUID id,
+            HttpServletRequest servletRequest,
             @RequestParam(value = "filter", required = false) final GetRequestsFilter filter){
+
+        final UUID id = authUtil.getEmployeeIdFromRequest(servletRequest);
 
         log.info("Request received to get reimbursement request by employee id: {}", id);
 

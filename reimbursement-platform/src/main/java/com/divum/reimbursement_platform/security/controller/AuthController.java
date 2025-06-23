@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
+import static com.divum.reimbursement_platform.commons.Constants.FE_LOCAL_HOST_ENDPOINT;
 import static com.divum.reimbursement_platform.security.dao.LoginStatus.SUCCESSFUL;
 
 @Log4j2
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = FE_LOCAL_HOST_ENDPOINT, allowCredentials = "true")
 @RequestMapping("/auth")
 public class AuthController {
 

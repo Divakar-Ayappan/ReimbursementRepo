@@ -16,8 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@Aspect
-@Component
+import static com.divum.reimbursement_platform.commons.Constants.JWT_COOKIE_NAME;
+
 @Log4j2
 public class AuthAspect {
 
@@ -36,10 +36,12 @@ public class AuthAspect {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication check failed");
         }
 
+        log.error(attrs.getRequest().getAttribute(JWT_COOKIE_NAME));
         HttpServletRequest request = attrs.getRequest();
-        Object user = request.getAttribute("email");
+        Object userId = request.getAttribute("id");
+        log.error(userId);
 
-        if (user == null) {
+        if (userId == null) {
             log.debug("Authentication failed for endpoint: {}", joinPoint.getSignature().toShortString());
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication required");
         }

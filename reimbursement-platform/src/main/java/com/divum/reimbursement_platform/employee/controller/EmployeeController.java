@@ -8,6 +8,7 @@ import com.divum.reimbursement_platform.employee.dto.GetAllEmployeeResponse;
 import com.divum.reimbursement_platform.employee.dto.GetEmployeeResponse;
 import com.divum.reimbursement_platform.employee.entity.Role;
 import com.divum.reimbursement_platform.employee.service.EmployeeService;
+import com.divum.reimbursement_platform.security.utils.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -28,19 +29,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+import static com.divum.reimbursement_platform.commons.Constants.FE_LOCAL_HOST_ENDPOINT;
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.CREATED;
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.DELETED;
 import static com.divum.reimbursement_platform.commons.entity.StatusCode.UPDATED;
-import static com.divum.reimbursement_platform.security.utils.JwtUtil.getEmployeeIdFromToken;
 
 @Log4j2
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/employee")
-@CrossOrigin
+@CrossOrigin(origins = FE_LOCAL_HOST_ENDPOINT, allowCredentials = "true")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+
+    private final JwtUtil jwtUtil;
 
     @GetMapping("/{id}")//TODO Use cookies to get id.
     @Authenticated
@@ -55,7 +58,7 @@ public class EmployeeController {
                 }
             }
         }
-        return ResponseEntity.ok(employeeService.getEmployee(getEmployeeIdFromToken(token)));
+        return ResponseEntity.ok(employeeService.getEmployee(jwtUtil.getEmployeeIdFromToken(token)));
     }
 
     @PostMapping

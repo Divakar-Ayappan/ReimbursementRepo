@@ -80,9 +80,9 @@ public class GlobalExceptionHandler {
      * @return a {@link ResponseEntity} containing the error details
      */
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
-        log.info("Entering Exception Handler");
-        log.info(ex.getMessage());
+    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityAlreadyExistsException ex) {
+        log.info("Entering Exception Handler for EntityAlreadyExistsException");
+        log.info("Error: " +ex.getMessage() + " Stack trace: " + ex.getStackTrace());
         final ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), ex.getErrorCode().toString());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
@@ -100,8 +100,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(EntityAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleEntityAlreadyExistsException(EntityAlreadyExistsException ex) {
-        log.info("Entering Exception Handler");
-        log.info(ex.getMessage());
+        log.info("Entering Exception Handler for EntityAlreadyExistsException");
+        log.info("Error: " +ex.getMessage() + " Stack trace: " + ex.getStackTrace());
         final ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), ex.getErrorCode().toString());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
@@ -109,8 +109,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalAccessException(IllegalArgumentException ex) {
-        log.info("Entering Exception Handler");
-        log.info(ex.getMessage());
+        log.error("IllegalArgumentException caught in GlobalExceptionHandler", ex);
         final ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), INVALID_REQUEST.toString());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);

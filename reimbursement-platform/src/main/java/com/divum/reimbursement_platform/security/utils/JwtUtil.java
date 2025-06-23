@@ -62,7 +62,7 @@ public class JwtUtil {
         return Role.valueOf(role);
     }
 
-    public static UUID getEmployeeIdFromToken(final String token) {
+    public UUID getEmployeeIdFromToken(final String token) {
         final String id = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(SECRET.getBytes()))
                 .build()

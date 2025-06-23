@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.UUID;
+
+import static com.divum.reimbursement_platform.commons.Constants.JWT_COOKIE_NAME;
 
 @Component
 @Service
@@ -33,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Get token from cookie
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
-                if ("token".equals(cookie.getName())) {
+                if (JWT_COOKIE_NAME.equals(cookie.getName())) {
                     token = cookie.getValue();
                     break;
                 }
@@ -41,13 +44,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if (token != null && jwtUtil.validateToken(token)) {
-            String email = jwtUtil.getEmailFromToken(token);
-            Role role = jwtUtil.getRoleFromToken(token);
+            final String email = jwtUtil.getEmailFromToken(token);
+            final Role role = jwtUtil.getRoleFromToken(token);
+            final UUID userId = jwtUtil.getEmployeeIdFromToken(token);
 
             // Store it in request, so that the AuthAspect can view these
             // and validate weather the token passed by user is valid or not.
             request.setAttribute("email", email);
             request.setAttribute("role", role);
+            request.setAttribute("id", userId);
         }
 
         filterChain.doFilter(request, response);
