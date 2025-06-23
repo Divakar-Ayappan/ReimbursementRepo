@@ -9,7 +9,9 @@ import com.divum.reimbursement_platform.security.dao.LoginRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 import static com.divum.reimbursement_platform.commons.Constants.FE_LOCAL_HOST_ENDPOINT;
+import static com.divum.reimbursement_platform.commons.Constants.JWT_COOKIE_NAME;
 import static com.divum.reimbursement_platform.security.dao.LoginStatus.SUCCESSFUL;
 
 @Log4j2
@@ -49,15 +52,15 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid password");
         }
 
-        String token = jwtUtil.generateToken(employee);
+        final String token = jwtUtil.generateToken(employee);
 
-//        ResponseCookie cookie = ResponseCookie.from("token", token)
-//                .httpOnly(true)
-//                .path("/")
-//                .maxAge(86400)
-//                .build();
-//
-//        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        final ResponseCookie cookie = ResponseCookie.from(JWT_COOKIE_NAME, token)
+                .httpOnly(true)
+                .path("/")
+                .maxAge(86400)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         return ResponseEntity.ok(new LoginResponse(SUCCESSFUL,token));
     }
